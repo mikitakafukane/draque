@@ -117,14 +117,16 @@ class Monster
     #{@name}は#{@transform_name}に変身した
     EOS
 
-    monster.hp * POWER_UP_RATE
+    @offense * POWER_UP_RATE
     @name = transform_name
   end
 
 end
 
-  brave = Brave.new(name: "テリー", hp: 500, offense: 150, defense: 100)
-  monster = Monster.new(name: "スライム", hp: 250, offense: 200, defense: 100)
+brave = Brave.new(name: "テリー", hp: 500, offense: 150, defense: 100)
+monster = Monster.new(name: "スライム", hp: 250, offense: 200, defense: 100)
 
+loop do  
   brave.attack(monster)
   monster.attack(brave)
+end
