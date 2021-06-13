@@ -1,5 +1,4 @@
 class Brave
-
   attr_reader :name, :offense, :defense
   attr_accessor :hp
 
@@ -15,20 +14,46 @@ class Brave
   def attack(monster)
     puts "#{@name}の攻撃"
 
+    attack_type = decision_attack_type
+    damage = calculate_damage(target: monster, attack_type: attack_type)
+    cause_damage(target: monster, damage: damage)
+
+    puts "#{monster.name}の残りHPは#{monster.hp}だ"
+  end
+
+  private
+
+  def decision_attack_type
     attack_num = rand(4)
-    
+
     if attack_num == 0
       puts "必殺攻撃"
-      damage = calculate_special_atttack - monster.defense
+      "special_attack"
     else
       puts "通常攻撃"
-      damage = @offense - monster.defense
+      "normal_attack"
     end
+  end
 
-    monster.hp -= damage
+  def calculate_damage(**params)
 
-    puts "#{monster.name}は#{damage}のダメージを受けた"
-    puts "#{monster.name}の残りHPは#{monster.hp}だ"
+    target = params[:target]
+    attack_type = params[:attack_type]
+
+    if attack_type == "special_attack"
+      calculate_special_atttack - target.defense
+    else
+      @offense - target.defense
+    end
+  end
+
+  def cause_damage(**params)
+
+    damage = params[:damage]
+    target = params[:target]
+
+    target.hp -= damage
+    puts "#{target.name}は#{damage}のダメージを受けた"
   end
 
   def calculate_special_atttack
@@ -56,12 +81,12 @@ class Monster
   end
 
   def attack(brave)
-    
+
     if hp < @trigger_of_transform && @transform_flag == false
       @transform_flag = true
       transform
     end
-    
+
     puts "#{name}の攻撃"
 
     damage = @offense - brave.defense
@@ -86,6 +111,7 @@ class Monster
   end
 
 end
+
   brave = Brave.new(name: "テリー", hp: 500, offense: 150, defense: 100)
   monster = Monster.new(name: "スライム", hp: 250, offense: 200, defense: 100)
 
