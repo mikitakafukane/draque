@@ -109,7 +109,7 @@ class Monster
 
     target.hp -= damage
     target.hp = 0 if target.hp < 0
-
+        
     puts "#{target.name}は#{damage}のダメージを受けた"
   end
 
@@ -132,8 +132,18 @@ monster = Monster.new(name: "スライム", hp: 250, offense: 200, defense: 100)
 
 loop do
   brave.attack(monster)
-  break if monster.hp <= 0
+  if monster.hp <= 0
+    exp = (monster.offense + monster.defense) * 2
+    gold = (monster.offense + monster.defense) * 3
+    puts "#{brave.name}はたたかいに勝った"
+    puts "#{exp}の経験値と#{gold}ゴールドを獲得した"
+    break
+  end
 
   monster.attack(brave)
-  break if brave.hp <= 0
+  if brave.hp <= 0
+    puts "#{brave.name}はたたかいに負けた"
+    puts "目の前が真っ暗になった"
+    break
+  end
 end
