@@ -1,11 +1,10 @@
 require './message_dialog'
 
-class Character
-
-  include MessageDialog
-  
+class Character  
   attr_reader :offense, :defense
   attr_accessor :hp, :name
+
+  include MessageDialog
 
   def initialize(**params)
     @name = params[:name]
